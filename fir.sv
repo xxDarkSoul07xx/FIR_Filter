@@ -56,10 +56,11 @@ module fir #(
             product[3] <= '0;
             valid2 <= 1'b0;
         end else begin
-            produdct[0] <= shift_reg[0] * h0;
+            product[0] <= shift_reg[0] * h0;
             product[1] <= shift_reg[1] * h1;
             product[2] <= shift_reg[2] * h2;
             product[3] <= shift_reg[3] * h3;
+            valid2 <= valid1;
         end
     end
 

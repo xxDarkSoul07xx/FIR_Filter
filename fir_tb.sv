@@ -49,7 +49,7 @@ module fir_tb;
         // repeat it a couple times
         repeat(3) begin
             repeat(4) send_sample(16'h7FFF);
-            repeat(4) send_sample(16'h000);
+            repeat(4) send_sample(16'h8000);
         end
 
         repeat(10) @(posedge clk);
