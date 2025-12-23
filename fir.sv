@@ -7,7 +7,7 @@ module fir #(
     input logic signed [data_width-1:0] data_in, // input
     output logic valid_out, // output valid
     output logic signed [data_width-1:0] data_out // the output
-)
+);
     // filter coefficients for a 4 tap moving average (0.25 each)
     // 0.25 in Q1.15: 0.25 * 2^15 = 8192 = 0x2000
     localparam signed [data_width-1:0] h0 = 16'h2000;
@@ -26,7 +26,7 @@ module fir #(
     logic signed [2*data_width-1:0] total_sum;
 
     // valids
-    logic vald1, valid2
+    logic valid1, valid2;
 
     // make teh shift register and moving stuff over when there's new inputs
     always_ff @(posedge clk or negedge rst_n) begin
@@ -56,10 +56,10 @@ module fir #(
             product[3] <= '0;
             valid2 <= 1'b0;
         end else begin
-            prod[0] <= shift_reg[0] * h[0];
-            prod[1] <= shift_reg[1] * h[1];
-            prod[2] <= shift_reg[2] * h[2];
-            prod[3] <= shift_reg[3] * h[3];
+            produdct[0] <= shift_reg[0] * h0;
+            product[1] <= shift_reg[1] * h1;
+            product[2] <= shift_reg[2] * h2;
+            product[3] <= shift_reg[3] * h3;
         end
     end
 
@@ -69,7 +69,7 @@ module fir #(
             total_sum <= '0;
             valid_out <= 1'b0;
         end else begin
-            sum <= product[0] + product[1] + product[2] + product[3];
+            total_sum <= product[0] + product[1] + product[2] + product[3];
             valid_out <= valid2;
         end
     end

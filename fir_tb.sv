@@ -20,7 +20,7 @@ module fir_tb;
     // 10 ns period
     initial begin
         clk = 0;
-        forever #5 clk = ~clk
+        forever #5 clk = ~clk;
     end
 
     initial begin
