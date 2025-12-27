@@ -68,16 +68,16 @@ module axi_tb;
     end
 
     initial begin
+        // reset
         rst_n = 0;
         axi_awvalid = 0;
         axi_wvalid = 0;
         axi_bready = 1;
         axi_arvalid = 0;
-        axi_arready = 1;
+        axi_rready = 1;
         valid_in = 0;
         data_in = 0;
 
-        // reset
         repeat(5) @(posedge clk);
         rst_n = 1;
         repeat(2) @(posedge clk);
@@ -121,7 +121,7 @@ module axi_tb;
         repeat(4) send_sample(16'h8000);
 
         // wait for the outputs
-        repeat(20) @(posedge clk);
+        repeat(10) @(posedge clk);
 
         // read the sample counter
         $display("Reading the sample counter");
@@ -158,16 +158,20 @@ module axi_tb;
             @(posedge clk);
             axi_araddr = addr;
             axi_arvalid = 1;
-
+            
             // wait for the address to be accepted
             @(posedge clk);
-            while (!axi_arready) @(posedge clk);
+            while (!axi_arready) begin
+                @(posedge clk);
+            end
             axi_arvalid = 0;
-
+            
             // wait for the data
-            while (!axi_rvalid) @(posedge clk);
+            while (!axi_rvalid) begin
+                @(posedge clk);
+            end
             @(posedge clk);
-        endtask
+        endtask 
 
         // task to send the filter sample
         task send_sample(input logic [15:0] sample);
@@ -180,8 +184,8 @@ module axi_tb;
 
         always @(posedge clk) begin
             if (valid_out) begin
-                real output_val;
-                output_val = $itor(data_out) / 32768.0;
+            real output_val;
+            output_val = real'($signed(data_out)) / 32768.0;
                 $display("Sample %2d: Output = %7.4f (0x%h)", sample_num, output_val, data_out);
                 sample_num = sample_num + 1;
             end

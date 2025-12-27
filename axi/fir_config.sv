@@ -1,4 +1,4 @@
-module fir #(
+module fir_config #(
     parameter data_width = 16 // Q1.15 fixed point
 )(
     input logic clk,
@@ -29,7 +29,7 @@ module fir #(
     // valids
     logic valid1, valid2;
 
-    // make teh shift register and moving stuff over when there's new inputs
+    // make the shift register and moving stuff over when there's new inputs
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             shift_reg[0] <= '0; // reset everything
