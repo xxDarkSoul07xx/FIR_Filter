@@ -96,7 +96,7 @@ Sample 4-7: -0.50, 0.00, 0.50, 0.00  (constant regions → 0)
 
 ### Python Golden Model Comparison
 
-![Filter Comparison](fir_filter_comparison.png)
+![Filter Comparison](python/fir_filter_comparison.png)
 
 The plot shows:
 - **Left:** Lowpass filter smooths edges
